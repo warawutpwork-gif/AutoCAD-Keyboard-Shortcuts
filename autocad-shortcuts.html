@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AutoCAD Key Guide — คีย์ลัดครบทุกคำสั่ง</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f1117;
+    --bg2: #161b27;
+    --bg3: #1e2535;
+    --surface: #232c3d;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.13);
+    --text: #e8eaf0;
+    --muted: #7a8299;
+    --dim: #4a5368;
+
+    --draw: #3b82f6;
+    --draw-bg: rgba(59,130,246,0.12);
+    --modify: #ef4444;
+    --modify-bg: rgba(239,68,68,0.12);
+    --view: #22c55e;
+    --view-bg: rgba(34,197,94,0.12);
+    --dim-c: #f59e0b;
+    --dim-bg: rgba(245,158,11,0.12);
+    --layer: #a855f7;
+    --layer-bg: rgba(168,85,247,0.12);
+    --select: #06b6d4;
+    --select-bg: rgba(6,182,212,0.12);
+    --file: #ec4899;
+    --file-bg: rgba(236,72,153,0.12);
+    --3d: #10b981;
+    --3d-bg: rgba(16,185,129,0.12);
+    --inquiry: #f97316;
+    --inquiry-bg: rgba(249,115,22,0.12);
+    --block: #8b5cf6;
+    --block-bg: rgba(139,92,246,0.12);
+    --layout: #14b8a6;
+    --layout-bg: rgba(20,184,166,0.12);
+    --advanced: #fb7185;
+    --advanced-bg: rgba(251,113,133,0.12);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Sarabun', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* Header */
+  .header {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(12px);
+  }
+
+  .logo {
+    font-family: 'Space Mono', monospace;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    white-space: nowrap;
+    letter-spacing: -0.5px;
+  }
+  .logo span { color: var(--draw); }
+
+  .search-wrap {
+    flex: 1;
+    max-width: 380px;
+    position: relative;
+  }
+  .search-wrap svg {
+    position: absolute;
+    left: 11px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    opacity: 0.4;
+    pointer-events: none;
+  }
+  .search-wrap input {
+    width: 100%;
+    padding: 9px 12px 9px 36px;
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: 'Sarabun', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color .2s;
+  }
+  .search-wrap input:focus { border-color: var(--draw); }
+  .search-wrap input::placeholder { color: var(--dim); }
+
+  .count-badge {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    white-space: nowrap;
+    margin-left: auto;
+  }
+
+  /* Sidebar */
+  .layout {
+    display: flex;
+    min-height: calc(100vh - 57px);
+  }
+
+  .sidebar {
+    width: 200px;
+    flex-shrink: 0;
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    padding: 14px 10px;
+    position: sticky;
+    top: 57px;
+    height: calc(100vh - 57px);
+    overflow-y: auto;
+  }
+
+  .sidebar-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--dim);
+    padding: 0 8px;
+    margin-bottom: 8px;
+    margin-top: 12px;
+  }
+  .sidebar-label:first-child { margin-top: 0; }
+
+  .nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 7px 10px;
+    border-radius: 6px;
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    font-family: 'Sarabun', sans-serif;
+    font-size: 13.5px;
+    cursor: pointer;
+    transition: all .15s;
+    text-align: left;
+  }
+  .nav-btn:hover { background: var(--bg3); color: var(--text); }
+  .nav-btn.active { background: var(--surface); color: var(--text); }
+
+  .nav-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .nav-count {
+    margin-left: auto;
+    font-size: 11px;
+    font-family: 'Space Mono', monospace;
+    opacity: 0.5;
+  }
+
+  /* Main */
+  .main {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    min-width: 0;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .section-badge {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    border: 1px solid;
+  }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 8px;
+    margin-bottom: 32px;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    transition: border-color .15s, transform .1s;
+    cursor: default;
+  }
+  .card:hover {
+    border-color: var(--border2);
+    transform: translateY(-1px);
+  }
+
+  .card-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .card-body { flex: 1; min-width: 0; }
+
+  .key {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 4px;
+    border: 1px solid;
+    margin-bottom: 4px;
+    letter-spacing: .3px;
+  }
+
+  .cmd-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .cmd-desc {
+    font-size: 11.5px;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  .no-result {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--muted);
+  }
+  .no-result .nr-icon { font-size: 3rem; margin-bottom: 12px; }
+  .no-result p { font-size: 14px; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
+
+  @media (max-width: 680px) {
+    .sidebar { display: none; }
+    .header { flex-wrap: wrap; }
+    .cards-grid { grid-template-columns: 1fr 1fr; }
+    .logo { font-size: 13px; }
+  }
+  @media (max-width: 420px) {
+    .cards-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">AUTO<span>CAD</span> KEY</div>
+  <div class="search-wrap">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="text" id="search" placeholder="ค้นหาคำสั่ง เช่น line, copy..." oninput="render()">
+  </div>
+  <div class="count-badge" id="count-badge">— / — คำสั่ง</div>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="sidebar"></nav>
+  <main class="main" id="main"></main>
+</div>
+
+<script>
+const cats = [
+  { id:'all',      label:'ทั้งหมด',         color:'#7a8299', icon:'◈' },
+  { id:'draw',     label:'วาด',             color:'#3b82f6', icon:'✏' },
+  { id:'modify',   label:'แก้ไข',           color:'#ef4444', icon:'⚙' },
+  { id:'view',     label:'มุมมอง',          color:'#22c55e', icon:'👁' },
+  { id:'dimension',label:'กำหนดขนาด',       color:'#f59e0b', icon:'↔' },
+  { id:'layer',    label:'เลเยอร์',         color:'#a855f7', icon:'◧' },
+  { id:'select',   label:'เลือก & ทั่วไป', color:'#06b6d4', icon:'☑' },
+  { id:'file',     label:'ไฟล์',            color:'#ec4899', icon:'💾' },
+  { id:'3d',       label:'3D',              color:'#10b981', icon:'◉' },
+  { id:'inquiry',  label:'วัดค่า',          color:'#f97316', icon:'📏' },
+  { id:'block',    label:'Block & Xref',    color:'#8b5cf6', icon:'🧩' },
+  { id:'layout',   label:'Layout & Plot',   color:'#14b8a6', icon:'🖨' },
+  { id:'advanced', label:'Advanced Modify', color:'#fb7185', icon:'⚡' },
+];
+
+const cmds = [
+  // DRAW
+  {cat:'draw', key:'L',    name:'Line',        desc:'วาดเส้นตรง', icon:'📏'},
+  {cat:'draw', key:'C',    name:'Circle',      desc:'วาดวงกลม', icon:'⭕'},
+  {cat:'draw', key:'REC',  name:'Rectangle',   desc:'วาดสี่เหลี่ยม', icon:'▭'},
+  {cat:'draw', key:'A',    name:'Arc',         desc:'วาดส่วนโค้ง', icon:'⌒'},
+  {cat:'draw', key:'PL',   name:'Polyline',    desc:'วาดเส้นหลายส่วน', icon:'〜'},
+  {cat:'draw', key:'SPL',  name:'Spline',      desc:'วาดเส้นโค้งอิสระ', icon:'〰'},
+  {cat:'draw', key:'EL',   name:'Ellipse',     desc:'วาดวงรี', icon:'🔵'},
+  {cat:'draw', key:'H',    name:'Hatch',       desc:'ใส่ลายแรเงา', icon:'🔲'},
+  {cat:'draw', key:'GR',   name:'Gradient',    desc:'ใส่สีไล่เฉดพื้นที่', icon:'🎨'},
+  {cat:'draw', key:'T',    name:'Mtext',       desc:'พิมพ์ข้อความหลายบรรทัด', icon:'📝'},
+  {cat:'draw', key:'DT',   name:'Dtext',       desc:'พิมพ์ข้อความบรรทัดเดียว', icon:'✏'},
+  {cat:'draw', key:'DO',   name:'Donut',       desc:'วาดวงกลมหนา/โดนัท', icon:'🍩'},
+  {cat:'draw', key:'POL',  name:'Polygon',     desc:'วาดรูป n เหลี่ยม', icon:'⬡'},
+  {cat:'draw', key:'ML',   name:'Mline',       desc:'วาดเส้นหลายแนว', icon:'⫸'},
+  {cat:'draw', key:'XL',   name:'Xline',       desc:'วาดเส้นไม่มีสิ้นสุด', icon:'↔'},
+  {cat:'draw', key:'RAY',  name:'Ray',         desc:'วาดรังสีจากจุด', icon:'→'},
+  {cat:'draw', key:'PO',   name:'Point',       desc:'วาดจุด', icon:'·'},
+  {cat:'draw', key:'DIV',  name:'Divide',      desc:'แบ่งออบเจ็กต์เป็นส่วนเท่าๆ', icon:'÷'},
+  {cat:'draw', key:'ME',   name:'Measure',     desc:'วัดและแบ่งตามระยะ', icon:'📐'},
+  {cat:'draw', key:'REG',  name:'Region',      desc:'สร้าง Region จาก closed loop', icon:'🔷'},
+  {cat:'draw', key:'WI',   name:'Wipeout',     desc:'ทึบบังพื้นที่', icon:'⬜'},
+  {cat:'draw', key:'BH',   name:'Bhatch',      desc:'Boundary Hatch', icon:'▦'},
+  {cat:'draw', key:'BO',   name:'Boundary',    desc:'สร้าง Boundary', icon:'◻'},
+  {cat:'draw', key:'FIELD',name:'Field',       desc:'แทรกข้อมูล Field', icon:'🏷'},
+
+  // MODIFY
+  {cat:'modify', key:'E',   name:'Erase',     desc:'ลบออบเจ็กต์', icon:'🗑'},
+  {cat:'modify', key:'CO',  name:'Copy',      desc:'คัดลอกออบเจ็กต์', icon:'📋'},
+  {cat:'modify', key:'M',   name:'Move',      desc:'ย้ายออบเจ็กต์', icon:'↔'},
+  {cat:'modify', key:'RO',  name:'Rotate',    desc:'หมุนออบเจ็กต์', icon:'🔄'},
+  {cat:'modify', key:'SC',  name:'Scale',     desc:'ปรับขนาด', icon:'⚖'},
+  {cat:'modify', key:'MI',  name:'Mirror',    desc:'สะท้อนออบเจ็กต์', icon:'🪞'},
+  {cat:'modify', key:'TR',  name:'Trim',      desc:'ตัดเส้น', icon:'✂'},
+  {cat:'modify', key:'EX',  name:'Extend',    desc:'ยืดเส้น', icon:'⇥'},
+  {cat:'modify', key:'O',   name:'Offset',    desc:'ขนานเส้น', icon:'⇉'},
+  {cat:'modify', key:'F',   name:'Fillet',    desc:'มนมุม', icon:'⌒'},
+  {cat:'modify', key:'CHA', name:'Chamfer',   desc:'ตัดมุม', icon:'◿'},
+  {cat:'modify', key:'AR',  name:'Array',     desc:'ทำซ้ำแบบ Array', icon:'⊞'},
+  {cat:'modify', key:'X',   name:'Explode',   desc:'แยกออบเจ็กต์', icon:'💥'},
+  {cat:'modify', key:'PE',  name:'Pedit',     desc:'แก้ไข Polyline', icon:'🖊'},
+  {cat:'modify', key:'S',   name:'Stretch',   desc:'ยืดออบเจ็กต์', icon:'↕'},
+  {cat:'modify', key:'BR',  name:'Break',     desc:'ตัดออบเจ็กต์', icon:'⛓'},
+  {cat:'modify', key:'J',   name:'Join',      desc:'รวมเส้น/โค้ง', icon:'🔗'},
+  {cat:'modify', key:'REV', name:'Reverse',   desc:'กลับทิศทาง Polyline', icon:'⇄'},
+  {cat:'modify', key:'LEN', name:'Lengthen',  desc:'ยืด/หดความยาว', icon:'↔'},
+  {cat:'modify', key:'AL',  name:'Align',     desc:'จัดแนวออบเจ็กต์', icon:'⊨'},
+  {cat:'modify', key:'MA',  name:'Matchprop', desc:'คัดลอก Properties', icon:'🖌'},
+  {cat:'modify', key:'OP',  name:'Overkill',  desc:'ลบเส้นซ้ำซ้อน', icon:'♻'},
+  {cat:'modify', key:'ED',  name:'Ddedit',    desc:'แก้ไขข้อความ', icon:'✏'},
+  {cat:'modify', key:'HE',  name:'Hatchedit', desc:'แก้ไข Hatch', icon:'▦'},
+  {cat:'modify', key:'SU',  name:'Subtract',  desc:'ลบ Region/Solid', icon:'−'},
+  {cat:'modify', key:'UNI', name:'Union',     desc:'รวม Region/Solid', icon:'+'},
+  {cat:'modify', key:'IN',  name:'Intersect', desc:'ตัด Region/Solid', icon:'∩'},
+
+  // VIEW
+  {cat:'view', key:'Z',            name:'Zoom',         desc:'ซูม (ตามด้วย E/A/W/P)', icon:'🔍'},
+  {cat:'view', key:'P',            name:'Pan',           desc:'เลื่อนมุมมอง', icon:'🖐'},
+  {cat:'view', key:'RE',           name:'Regen',         desc:'Regenerate มุมมอง', icon:'♻'},
+  {cat:'view', key:'REA',          name:'Regenall',      desc:'Regen ทุก Viewport', icon:'🔃'},
+  {cat:'view', key:'V',            name:'View',          desc:'จัดการ Named Views', icon:'🎥'},
+  {cat:'view', key:'3DO',          name:'3Dorbit',       desc:'หมุนมุมมอง 3D', icon:'🌐'},
+  {cat:'view', key:'F3',           name:'Osnap Toggle',  desc:'เปิด/ปิด Object Snap', icon:'🎯'},
+  {cat:'view', key:'F8',           name:'Ortho',         desc:'เปิด/ปิด Ortho Mode', icon:'📐'},
+  {cat:'view', key:'F7',           name:'Grid',          desc:'เปิด/ปิดตาราง Grid', icon:'⊞'},
+  {cat:'view', key:'F10',          name:'Polar',         desc:'เปิด/ปิด Polar Tracking', icon:'⊕'},
+  {cat:'view', key:'F11',          name:'Object Snap Tracking',desc:'เปิด/ปิด OSnap Tracking', icon:'⊗'},
+  {cat:'view', key:'F12',          name:'Dynamic Input', desc:'เปิด/ปิด Dynamic Input', icon:'💬'},
+  {cat:'view', key:'Ctrl+Shift+H', name:'Hide Palettes', desc:'ซ่อน/แสดง Palette', icon:'🙈'},
+  {cat:'view', key:'WS',           name:'Workspace',     desc:'เปลี่ยน Workspace', icon:'🏠'},
+  {cat:'view', key:'VSCURRENT',    name:'Visual Styles', desc:'เปลี่ยน Visual Style 3D', icon:'🎭'},
+  {cat:'view', key:'PLAN',         name:'Plan',          desc:'กลับ Plan View', icon:'📋'},
+  {cat:'view', key:'DVIEW',        name:'Dview',         desc:'ตั้งค่ามุมมอง 3D', icon:'👀'},
+
+  // DIMENSION
+  {cat:'dimension', key:'DAL',  name:'Dimaligned',   desc:'มิติแบบเอียง', icon:'╱'},
+  {cat:'dimension', key:'DLI',  name:'Dimlinear',    desc:'มิติแนวนอน/แนวตั้ง', icon:'↔'},
+  {cat:'dimension', key:'DRA',  name:'Dimradius',    desc:'มิติรัศมี', icon:'◔'},
+  {cat:'dimension', key:'DDI',  name:'Dimdiameter',  desc:'มิติเส้นผ่านศูนย์กลาง', icon:'⊙'},
+  {cat:'dimension', key:'DAN',  name:'Dimangular',   desc:'มิติมุม', icon:'∠'},
+  {cat:'dimension', key:'DCO',  name:'Dimcontinue',  desc:'มิติต่อเนื่อง', icon:'↠'},
+  {cat:'dimension', key:'DBA',  name:'Dimbaseline',  desc:'มิติจากเส้นฐาน', icon:'⊢'},
+  {cat:'dimension', key:'D',    name:'Dimstyle',     desc:'ตั้งค่า Dimension Style', icon:'⚙'},
+  {cat:'dimension', key:'LE',   name:'Leader',       desc:'เส้นนำกำกับ', icon:'🏷'},
+  {cat:'dimension', key:'MLD',  name:'Mleader',      desc:'Multi-Leader', icon:'📌'},
+  {cat:'dimension', key:'TOL',  name:'Tolerance',    desc:'ใส่ค่าพิกัดงาน', icon:'±'},
+  {cat:'dimension', key:'QDIM', name:'Qdim',         desc:'กำหนดมิติอัตโนมัติ', icon:'⚡'},
+  {cat:'dimension', key:'DOR',  name:'Dimordinate',  desc:'มิติแบบ Ordinate', icon:'📊'},
+  {cat:'dimension', key:'DIMEDIT',name:'Dimedit',    desc:'แก้ไขค่ามิติ', icon:'✏'},
+  {cat:'dimension', key:'DIMTEDIT',name:'Dimtedit',  desc:'ย้ายตัวเลข Dim', icon:'↕'},
+
+  // LAYER
+  {cat:'layer', key:'LA',    name:'Layer',       desc:'เปิดตัวจัดการเลเยอร์', icon:'🗂'},
+  {cat:'layer', key:'LT',    name:'Linetype',    desc:'ตั้งค่า Linetype', icon:'〰'},
+  {cat:'layer', key:'COL',   name:'Color',       desc:'ตั้งค่าสี', icon:'🎨'},
+  {cat:'layer', key:'LW',    name:'Lineweight',  desc:'ความหนาเส้น', icon:'═'},
+  {cat:'layer', key:'LAOFF', name:'LayOff',      desc:'ปิดเลเยอร์ที่เลือก', icon:'👁'},
+  {cat:'layer', key:'LAON',  name:'LayOn',       desc:'เปิดทุกเลเยอร์', icon:'💡'},
+  {cat:'layer', key:'LAISO', name:'Layiso',      desc:'Isolate เลเยอร์ที่เลือก', icon:'🔒'},
+  {cat:'layer', key:'LAURISO',name:'Layuniso',   desc:'ยกเลิก Isolate', icon:'🔓'},
+  {cat:'layer', key:'LAFR',  name:'Layfrz',      desc:'Freeze เลเยอร์', icon:'❄'},
+  {cat:'layer', key:'LATHW', name:'Laythw',      desc:'Thaw ทุกเลเยอร์', icon:'☀'},
+  {cat:'layer', key:'LALCK', name:'Laylck',      desc:'Lock เลเยอร์', icon:'🔐'},
+  {cat:'layer', key:'LAULK', name:'Layulk',      desc:'Unlock เลเยอร์', icon:'🔑'},
+  {cat:'layer', key:'LAMC',  name:'Laymch',      desc:'เปลี่ยนเลเยอร์ให้ตรงกับที่เลือก', icon:'🔀'},
+  {cat:'layer', key:'LACUR', name:'Laycur',      desc:'ย้ายไปเลเยอร์ปัจจุบัน', icon:'↩'},
+  {cat:'layer', key:'LADELALL',name:'Laydel',    desc:'ลบเลเยอร์และออบเจ็กต์', icon:'🗑'},
+
+  // SELECT & GENERAL
+  {cat:'select', key:'Ctrl+A',     name:'Select All',     desc:'เลือกทั้งหมด', icon:'☑'},
+  {cat:'select', key:'Ctrl+Z',     name:'Undo',           desc:'ยกเลิกคำสั่งล่าสุด', icon:'↩'},
+  {cat:'select', key:'Ctrl+Y',     name:'Redo',           desc:'ทำซ้ำคำสั่ง', icon:'↪'},
+  {cat:'select', key:'Ctrl+C',     name:'Copy Clipboard', desc:'คัดลอกไปคลิปบอร์ด', icon:'📋'},
+  {cat:'select', key:'Ctrl+V',     name:'Paste',          desc:'วางจากคลิปบอร์ด', icon:'📌'},
+  {cat:'select', key:'Ctrl+X',     name:'Cut',            desc:'ตัดออบเจ็กต์', icon:'✂'},
+  {cat:'select', key:'Esc',        name:'Cancel',         desc:'ยกเลิก/ออกจากคำสั่ง', icon:'⛔'},
+  {cat:'select', key:'Enter/Space',name:'Confirm/Repeat', desc:'ยืนยัน หรือทำซ้ำคำสั่งเดิม', icon:'⏎'},
+  {cat:'select', key:'QS',         name:'Qselect',        desc:'เลือกออบเจ็กต์แบบ Filter', icon:'🔎'},
+  {cat:'select', key:'SS',         name:'Selectsimilar',  desc:'เลือกออบเจ็กต์ที่คล้ายกัน', icon:'🔗'},
+  {cat:'select', key:'Ctrl+G',     name:'Group Toggle',   desc:'เปิด/ปิด Group Selection', icon:'◈'},
+  {cat:'select', key:'PR',         name:'Properties',     desc:'ดูคุณสมบัติออบเจ็กต์', icon:'ℹ'},
+  {cat:'select', key:'CH',         name:'Change',         desc:'เปลี่ยน Properties', icon:'✏'},
+  {cat:'select', key:'MO',         name:'Chprop',         desc:'เปลี่ยนคุณสมบัติ', icon:'🔧'},
+  {cat:'select', key:'Ctrl+1',     name:'Properties Panel',desc:'เปิด Properties Panel', icon:'📋'},
+  {cat:'select', key:'Ctrl+2',     name:'DesignCenter',   desc:'เปิด DesignCenter', icon:'🏛'},
+  {cat:'select', key:'Ctrl+4',     name:'Sheet Set',      desc:'เปิด Sheet Set Manager', icon:'📄'},
+
+  // FILE
+  {cat:'file', key:'Ctrl+S',       name:'Save',        desc:'บันทึกไฟล์', icon:'💾'},
+  {cat:'file', key:'Ctrl+Shift+S', name:'Save As',     desc:'บันทึกเป็นชื่อใหม่', icon:'📂'},
+  {cat:'file', key:'Ctrl+N',       name:'New',         desc:'เปิดไฟล์ใหม่', icon:'🆕'},
+  {cat:'file', key:'Ctrl+O',       name:'Open',        desc:'เปิดไฟล์', icon:'📁'},
+  {cat:'file', key:'Ctrl+P',       name:'Plot/Print',  desc:'พิมพ์/พล็อต', icon:'🖨'},
+  {cat:'file', key:'Ctrl+W',       name:'Close',       desc:'ปิดไฟล์', icon:'✕'},
+  {cat:'file', key:'Ctrl+Tab',     name:'Switch File', desc:'สลับระหว่างไฟล์', icon:'⇄'},
+  {cat:'file', key:'AUDIT',        name:'Audit',       desc:'ตรวจสอบ/ซ่อมแซมไฟล์', icon:'🔍'},
+  {cat:'file', key:'RECOVER',      name:'Recover',     desc:'กู้คืนไฟล์เสียหาย', icon:'🛠'},
+  {cat:'file', key:'PURGE',        name:'Purge',       desc:'ลบข้อมูลที่ไม่ใช้', icon:'🧹'},
+  {cat:'file', key:'QSAVE',        name:'Qsave',       desc:'บันทึกด่วน', icon:'💾'},
+  {cat:'file', key:'WBLOCK',       name:'Wblock',      desc:'บันทึก Block เป็นไฟล์', icon:'📦'},
+
+  // 3D
+  {cat:'3d', key:'BOX',    name:'Box',        desc:'สร้างกล่อง 3D', icon:'📦'},
+  {cat:'3d', key:'SPH',    name:'Sphere',     desc:'สร้างทรงกลม', icon:'⚽'},
+  {cat:'3d', key:'CYL',    name:'Cylinder',   desc:'สร้างทรงกระบอก', icon:'🥫'},
+  {cat:'3d', key:'CON',    name:'Cone',       desc:'สร้างทรงกรวย', icon:'🔺'},
+  {cat:'3d', key:'WED',    name:'Wedge',      desc:'สร้างลิ่ม', icon:'◣'},
+  {cat:'3d', key:'TOR',    name:'Torus',      desc:'สร้างทอรัส', icon:'🍩'},
+  {cat:'3d', key:'EXT',    name:'Extrude',    desc:'ยื่น 2D เป็น 3D', icon:'⬆'},
+  {cat:'3d', key:'REV',    name:'Revolve',    desc:'หมุน 2D รอบแกน', icon:'🔄'},
+  {cat:'3d', key:'SWE',    name:'Sweep',      desc:'ดึงตามเส้นทาง', icon:'〜'},
+  {cat:'3d', key:'LOFT',   name:'Loft',       desc:'สร้างผิวจากหลายหน้าตัด', icon:'⋈'},
+  {cat:'3d', key:'PRESS',  name:'Presspull',  desc:'กด/ดึงพื้นผิว', icon:'⬇'},
+  {cat:'3d', key:'3DAR',   name:'3Darray',    desc:'ทำซ้ำแบบ 3D Array', icon:'⊞'},
+  {cat:'3d', key:'3DM',    name:'3Dmirror',   desc:'สะท้อนใน 3D', icon:'🪞'},
+  {cat:'3d', key:'3DRO',   name:'3Drotate',   desc:'หมุนใน 3D', icon:'🔄'},
+  {cat:'3d', key:'FLAT',   name:'Flatten',    desc:'แปลง 3D เป็น 2D', icon:'▭'},
+  {cat:'3d', key:'SECTION',name:'Section',    desc:'ตัดหน้าตัด Solid', icon:'⊖'},
+  {cat:'3d', key:'SLICE',  name:'Slice',      desc:'ตัด Solid ด้วยระนาบ', icon:'✂'},
+  {cat:'3d', key:'INTERF', name:'Interfere',  desc:'ตรวจสอบการชนกัน', icon:'💥'},
+  {cat:'3d', key:'HIDE',   name:'Hide',       desc:'ซ่อนเส้นหลัง 3D', icon:'🙈'},
+  {cat:'3d', key:'SHADE',  name:'Shade',      desc:'แสดง Shade 3D', icon:'🎭'},
+
+  // INQUIRY
+  {cat:'inquiry', key:'DI',    name:'Dist',        desc:'วัดระยะทาง', icon:'📏'},
+  {cat:'inquiry', key:'AA',    name:'Area',         desc:'หาพื้นที่', icon:'⬛'},
+  {cat:'inquiry', key:'LI',    name:'List',         desc:'แสดงข้อมูลออบเจ็กต์', icon:'📋'},
+  {cat:'inquiry', key:'ID',    name:'Id',           desc:'แสดงพิกัดจุด', icon:'📍'},
+  {cat:'inquiry', key:'MASSPROP',name:'Massprop',  desc:'คุณสมบัติมวลและพื้นที่', icon:'⚖'},
+  {cat:'inquiry', key:'MEA',   name:'Measuregeom',  desc:'วัดระยะ/มุม/พื้นที่', icon:'📐'},
+  {cat:'inquiry', key:'TIME',  name:'Time',         desc:'แสดงเวลาที่ใช้งาน', icon:'⏱'},
+  {cat:'inquiry', key:'STATUS',name:'Status',       desc:'แสดงสถานะไฟล์', icon:'ℹ'},
+  {cat:'inquiry', key:'UNITS', name:'Units',        desc:'ตั้งค่าหน่วยการวัด', icon:'📏'},
+  {cat:'inquiry', key:'LIMITS',name:'Limits',       desc:'กำหนดขอบเขตการวาด', icon:'⬜'},
+
+  // BLOCK & XREF
+  {cat:'block', key:'B',      name:'Block',         desc:'สร้าง Block definition', icon:'🧩'},
+  {cat:'block', key:'I',      name:'Insert',         desc:'แทรก Block', icon:'📎'},
+  {cat:'block', key:'BE',     name:'Bedit',          desc:'แก้ไข Block', icon:'✏'},
+  {cat:'block', key:'BCLOSE', name:'Bclose',         desc:'ออกจากโหมดแก้ไข Block', icon:'✕'},
+  {cat:'block', key:'ATT',    name:'Attdef',         desc:'สร้าง Attribute', icon:'🏷'},
+  {cat:'block', key:'ATE',    name:'Attedit',        desc:'แก้ไข Attribute', icon:'✏'},
+  {cat:'block', key:'BATM',   name:'Battman',        desc:'จัดการ Block Attribute', icon:'⚙'},
+  {cat:'block', key:'XR',     name:'Xref',           desc:'จัดการ External Reference', icon:'🔗'},
+  {cat:'block', key:'XA',     name:'Xattach',        desc:'แนบ Xref ไฟล์ภายนอก', icon:'📎'},
+  {cat:'block', key:'XB',     name:'Xbind',          desc:'รวม Xref เข้าไฟล์', icon:'📦'},
+  {cat:'block', key:'XC',     name:'Xclip',          desc:'ตัดขอบเขต Xref', icon:'✂'},
+  {cat:'block', key:'NCOPY',  name:'Ncopy',          desc:'คัดลอกจากภายใน Block/Xref', icon:'📋'},
+  {cat:'block', key:'BCOUNT', name:'Bcount',         desc:'นับจำนวน Block', icon:'🔢'},
+  {cat:'block', key:'BURST',  name:'Burst',          desc:'Explode พร้อมคง Attribute', icon:'💥'},
+
+  // LAYOUT & PLOT
+  {cat:'layout', key:'MS',      name:'Mspace',        desc:'เข้า Model Space ใน Viewport', icon:'🔲'},
+  {cat:'layout', key:'PS',      name:'Pspace',        desc:'เข้า Paper Space', icon:'📄'},
+  {cat:'layout', key:'VPORTS', name:'Vports',         desc:'สร้าง/จัดการ Viewport', icon:'⊞'},
+  {cat:'layout', key:'MV',     name:'Mview',          desc:'สร้าง Viewport', icon:'▭'},
+  {cat:'layout', key:'PAGESETUP',name:'Pagesetup',    desc:'ตั้งค่าหน้ากระดาษ', icon:'📋'},
+  {cat:'layout', key:'PLOT',   name:'Plot',           desc:'ตั้งค่าและพล็อต', icon:'🖨'},
+  {cat:'layout', key:'PUBLISH',name:'Publish',        desc:'พล็อตหลายหน้า/PDF', icon:'📤'},
+  {cat:'layout', key:'EXPORT', name:'Export',         desc:'ส่งออกไฟล์', icon:'💾'},
+  {cat:'layout', key:'IMPORT', name:'Import',         desc:'นำเข้าไฟล์', icon:'📥'},
+  {cat:'layout', key:'LAYOUT', name:'Layout',         desc:'สร้าง/จัดการ Layout', icon:'📐'},
+
+  // ADVANCED MODIFY
+  {cat:'advanced', key:'OVERKILL',name:'Overkill',    desc:'ลบเส้นซ้ำซ้อนอัตโนมัติ', icon:'♻'},
+  {cat:'advanced', key:'FLATTEN', name:'Flatten',     desc:'แปลง 3D เป็น 2D View', icon:'▭'},
+  {cat:'advanced', key:'NCOPY',   name:'Ncopy',       desc:'คัดลอกจาก Nested Block', icon:'📋'},
+  {cat:'advanced', key:'BURST',   name:'Burst',       desc:'Explode คง Attribute', icon:'💥'},
+  {cat:'advanced', key:'SS',      name:'Selectsimilar',desc:'เลือกออบเจ็กต์คล้ายกัน', icon:'🔎'},
+  {cat:'advanced', key:'CLIPIT',  name:'Clipit',      desc:'ตัดขอบ Raster/Xref', icon:'✂'},
+  {cat:'advanced', key:'TXTEXP',  name:'Txtexp',      desc:'แปลงข้อความเป็น Polyline', icon:'📝'},
+  {cat:'advanced', key:'MKSHAPE', name:'Mkshape',     desc:'สร้าง Shape จาก Object', icon:'🔷'},
+  {cat:'advanced', key:'SUPERHATCH',name:'Superhatch', desc:'Hatch จากรูปภาพ/Block', icon:'▦'},
+  {cat:'advanced', key:'TORIENT', name:'Torient',     desc:'หมุนข้อความให้ตั้ง', icon:'🔄'},
+  {cat:'advanced', key:'DIMEX',   name:'Dimex',       desc:'ส่งออก Dim Style', icon:'📤'},
+  {cat:'advanced', key:'DIMIM',   name:'Dimim',       desc:'นำเข้า Dim Style', icon:'📥'},
+];
+
+let activeCat = 'all';
+
+function getCatColor(catId) {
+  const c = cats.find(c => c.id === catId);
+  return c ? c.color : '#7a8299';
+}
+
+function renderSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const countByCat = {};
+  cmds.forEach(c => { countByCat[c.cat] = (countByCat[c.cat]||0)+1; });
+
+  sidebar.innerHTML = `<div class="sidebar-label">หมวดหมู่</div>` +
+    cats.map(c => {
+      const count = c.id === 'all' ? cmds.length : (countByCat[c.id]||0);
+      return `<button class="nav-btn${activeCat===c.id?' active':''}" onclick="setTab('${c.id}')">
+        <span class="nav-dot" style="background:${c.color}"></span>
+        ${c.label}
+        <span class="nav-count">${count}</span>
+      </button>`;
+    }).join('');
+}
+
+function setTab(id) { activeCat = id; render(); }
+
+function render() {
+  renderSidebar();
+  const q = document.getElementById('search').value.toLowerCase().trim();
+
+  let filtered = cmds.filter(c => {
+    const matchCat = activeCat === 'all' || c.cat === activeCat;
+    const matchQ = !q || c.key.toLowerCase().includes(q) || c.name.toLowerCase().includes(q) || c.desc.toLowerCase().includes(q);
+    return matchCat && matchQ;
+  });
+
+  document.getElementById('count-badge').textContent = `${filtered.length} / ${cmds.length} คำสั่ง`;
+
+  const main = document.getElementById('main');
+  if (!filtered.length) {
+    main.innerHTML = `<div class="no-result"><div class="nr-icon">🔍</div><p>ไม่พบคำสั่ง "<strong>${q}</strong>"<br>ลองค้นหาคำอื่น</p></div>`;
+    return;
+  }
+
+  const grouped = {};
+  filtered.forEach(c => { if(!grouped[c.cat]) grouped[c.cat]=[]; grouped[c.cat].push(c); });
+
+  const catOrder = ['draw','modify','view','dimension','layer','select','file','3d','inquiry','block','layout','advanced'];
+  let html = '';
+  for (const catId of catOrder) {
+    if (!grouped[catId]) continue;
+    const catObj = cats.find(c => c.id === catId);
+    const color = catObj ? catObj.color : '#7a8299';
+    const label = catObj ? catObj.label : catId;
+
+    if (activeCat === 'all') {
+      html += `<div class="section-header">
+        <div style="width:10px;height:10px;border-radius:50%;background:${color};flex-shrink:0"></div>
+        <span class="section-title">${label}</span>
+        <span class="section-badge" style="color:${color};border-color:${color}33">${grouped[catId].length} คำสั่ง</span>
+      </div>`;
+    }
+
+    html += `<div class="cards-grid">`;
+    grouped[catId].forEach(c => {
+      const col = getCatColor(c.cat);
+      html += `<div class="card">
+        <div class="card-icon" style="background:${col}18">${c.icon}</div>
+        <div class="card-body">
+          <span class="key" style="color:${col};border-color:${col}44;background:${col}12">${c.key}</span>
+          <div class="cmd-name">${c.name}</div>
+          <div class="cmd-desc">${c.desc}</div>
+        </div>
+      </div>`;
+    });
+    html += `</div>`;
+  }
+
+  main.innerHTML = html;
+}
+
+render();
+</script>
+</body>
+</html>
